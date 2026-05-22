@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>雅浩家具 新人產品熟悉度測驗</title>
+<style>
+:root {
+  --ink: #1a1a1a;
+  --ink-soft: #3a3a3a;
+  --paper: #f6f3ed;
+  --paper-soft: #ece7dc;
+  --line: #2a2a2a;
+  --accent: #a8451e;
+  --accent-soft: #c9a373;
+  --muted: #7a7264;
+  --success: #2d5e3e;
+  --success-bg: #e8f0ea;
+  --error: #8b2c20;
+  --error-bg: #f9ebe9;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Microsoft JhengHei', '微軟正黑體', -apple-system, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.7;
+  font-feature-settings: "palt";
+  letter-spacing: 0.02em;
+  min-height: 100vh;
+}
+
+.wrap { max-width: 880px; margin: 0 auto; padding: 32px 24px 60px; }
+
+/* === Header === */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 20px;
+  border-bottom: 2px solid var(--line);
+  margin-bottom: 32px;
+}
+
+.logo-area .tag {
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.logo-area h1 {
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+}
+
+.score-area {
+  text-align: right;
+}
+
+.score-area .label {
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.score-area .score {
+  font-family: 'Georgia', serif;
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1;
+}
+
+.score-area .score .total { color: var(--muted); font-size: 18px; }
+
+/* === Stage progress (闖關進度) === */
+.stages-bar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  margin-bottom: 32px;
+}
+
+.stage-dot {
+  position: relative;
+  padding: 12px 4px;
+  background: white;
+  border: 1px solid #ddd5c5;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  transition: all 0.3s;
+}
+
+.stage-dot .num {
+  display: block;
+  font-family: 'Georgia', serif;
+  font-size: 16px;
+  margin-bottom: 2px;
+  color: var(--ink);
+}
+
+.stage-dot.current {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(168, 69, 30, 0.25);
+}
+.stage-dot.current .num { color: white; }
+
+.stage-dot.cleared {
+  background: var(--success);
+  border-color: var(--success);
+  color: white;
+}
+.stage-dot.cleared .num { color: white; }
+.stage-dot.cleared::after {
+  content: "✓";
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: white;
+  color: var(--success);
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--success);
+}
+
+.stage-dot.locked { opacity: 0.4; }
+
+/* === Welcome Screen === */
+.screen { display: none; }
+.screen.active { display: block; }
+
+.welcome {
+  background: white;
+  border: 1px solid #ddd5c5;
+  border-radius: 6px;
+  padding: 48px 40px;
+  text-align: center;
+}
+
+.welcome h2 {
+  font-size: 32px;
+  font-weight: 900;
+  margin-bottom: 14px;
+  letter-spacing: -0.01em;
+}
+
+.welcome .intro {
+  font-size: 15px;
+  color: var(--ink-soft);
+  margin-bottom: 32px;
+  max-width: 580px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.8;
+}
+
+.welcome-stages {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 8px;
+  margin: 32px 0;
+  text-align: left;
+}
+
+.welcome-stages .item {
+  background: var(--paper-soft);
+  padding: 12px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.welcome-stages .item .n {
+  font-family: 'Georgia', serif;
+  font-size: 18px;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.welcome-stages .item .label { font-weight: 700; color: var(--ink); }
+
+.btn-primary {
+  background: var(--ink);
+  color: var(--paper);
+  border: none;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  padding: 16px 40px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 16px;
+}
+
+.btn-primary:hover { background: var(--accent); transform: translateY(-1px); }
+
+/* === Stage Screen === */
+.stage-card {
+  background: white;
+  border: 1px solid #ddd5c5;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.stage-head {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 24px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stage-head .left .lvl {
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  color: var(--accent-soft);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.stage-head .left h2 {
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+}
+
+.stage-head .right {
+  text-align: right;
+  font-size: 11px;
+  color: rgba(246,243,237,0.7);
+  letter-spacing: 0.1em;
+}
+
+.stage-body { padding: 32px; }
+
+.question-block {
+  margin-bottom: 32px;
+  padding-bottom: 32px;
+  border-bottom: 1px dashed #e0d8c8;
+}
+
+.question-block:last-of-type { border-bottom: none; padding-bottom: 0; margin-bottom: 16px; }
+
+.q-num {
+  display: inline-block;
+  background: var(--accent);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 2px;
+  letter-spacing: 0.15em;
+  margin-bottom: 12px;
+}
+
+.q-text {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 18px;
+  line-height: 1.6;
+}
+
+.options { display: grid; gap: 10px; }
+
+.option {
+  background: var(--paper-soft);
+  border: 2px solid transparent;
+  border-radius: 4px;
+  padding: 14px 18px;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+  font-family: inherit;
+  color: var(--ink-soft);
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.option:hover:not(.disabled) {
+  background: white;
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+.option .marker {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: white;
+  border: 1.5px solid var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+}
+
+.option.selected {
+  background: white;
+  border-color: var(--ink);
+  color: var(--ink);
+}
+.option.selected .marker {
+  background: var(--ink);
+  color: white;
+  border-color: var(--ink);
+}
+
+.option.correct {
+  background: var(--success-bg);
+  border-color: var(--success);
+  color: var(--success);
+  font-weight: 600;
+}
+.option.correct .marker {
+  background: var(--success);
+  color: white;
+  border-color: var(--success);
+}
+
+.option.incorrect {
+  background: var(--error-bg);
+  border-color: var(--error);
+  color: var(--error);
+}
+.option.incorrect .marker {
+  background: var(--error);
+  color: white;
+  border-color: var(--error);
+}
+
+.option.disabled { cursor: default; }
+
+.feedback {
+  display: none;
+  margin-top: 14px;
+  padding: 14px 18px;
+  border-radius: 4px;
+  font-size: 13.5px;
+  line-height: 1.7;
+}
+
+.feedback.show { display: block; }
+
+.feedback.correct {
+  background: var(--success-bg);
+  border-left: 3px solid var(--success);
+  color: var(--success);
+}
+
+.feedback.incorrect {
+  background: var(--error-bg);
+  border-left: 3px solid var(--error);
+  color: var(--error);
+}
+
+.feedback strong { font-weight: 700; }
+
+/* Stage actions */
+.stage-actions {
+  margin-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.btn-stage {
+  background: var(--ink);
+  color: var(--paper);
+  border: none;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  padding: 12px 28px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-stage:hover:not(:disabled) { background: var(--accent); transform: translateY(-1px); }
+.btn-stage:disabled { opacity: 0.3; cursor: not-allowed; }
+
+.btn-secondary {
+  background: transparent;
+  color: var(--ink);
+  border: 1.5px solid var(--ink);
+}
+.btn-secondary:hover:not(:disabled) { background: var(--ink); color: var(--paper); transform: translateY(-1px); }
+
+.stage-status {
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+}
+.stage-status .ok { color: var(--success); font-weight: 700; }
+.stage-status .pending { color: var(--accent); font-weight: 700; }
+
+/* Stage clear overlay */
+.clear-banner {
+  display: none;
+  margin: 24px 0;
+  padding: 28px;
+  background: linear-gradient(135deg, var(--success) 0%, #1e4a30 100%);
+  color: white;
+  border-radius: 6px;
+  text-align: center;
+  animation: slideIn 0.4s ease-out;
+}
+
+.clear-banner.show { display: block; }
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.clear-banner .tag {
+  font-size: 10px;
+  letter-spacing: 0.4em;
+  font-weight: 700;
+  opacity: 0.8;
+}
+
+.clear-banner h3 {
+  font-size: 28px;
+  font-weight: 900;
+  margin: 6px 0 8px;
+  letter-spacing: 0.05em;
+}
+
+.clear-banner p { font-size: 13px; opacity: 0.85; }
+
+/* === Certificate (final screen) === */
+.certificate {
+  background: white;
+  border: 2px solid var(--ink);
+  padding: 48px 40px;
+  text-align: center;
+  position: relative;
+}
+
+.certificate::before, .certificate::after {
+  content: "";
+  position: absolute;
+  top: 8px; bottom: 8px;
+  left: 8px; right: 8px;
+  border: 1px solid var(--accent);
+  pointer-events: none;
+}
+
+.cert-tag {
+  font-size: 11px;
+  letter-spacing: 0.4em;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.cert-title {
+  font-size: 36px;
+  font-weight: 900;
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
+}
+
+.cert-sub {
+  font-size: 13px;
+  color: var(--muted);
+  letter-spacing: 0.15em;
+  margin-bottom: 32px;
+}
+
+.cert-score {
+  background: var(--paper-soft);
+  border-radius: 4px;
+  padding: 24px;
+  margin: 24px auto;
+  max-width: 380px;
+}
+
+.cert-score .label {
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  color: var(--muted);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.cert-score .big {
+  font-family: 'Georgia', serif;
+  font-size: 56px;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.cert-score .total { font-size: 24px; color: var(--muted); }
+
+.cert-message {
+  font-size: 15px;
+  color: var(--ink-soft);
+  line-height: 1.8;
+  margin: 24px auto;
+  max-width: 580px;
+}
+
+.cert-meta {
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid #ddd5c5;
+}
+
+@media (max-width: 600px) {
+  .stages-bar { grid-template-columns: repeat(4, 1fr); }
+  .stage-head { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .stage-head .right { text-align: left; }
+  .welcome { padding: 32px 24px; }
+}
+
+/* === Confetti Container === */
+.confetti-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 999;
+  display: none;
+}
+.confetti-canvas.show { display: block; }
+
+/* === 結業歡呼大字 === */
+.cheer-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(26, 26, 26, 0.85);
+  z-index: 998;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  animation: cheerFadeIn 0.4s ease-out;
+}
+.cheer-overlay.show { display: flex; }
+@keyframes cheerFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.cheer-text {
+  font-family: 'Microsoft JhengHei', sans-serif;
+  color: white;
+  text-align: center;
+  animation: cheerZoom 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes cheerZoom {
+  0% { transform: scale(0.3); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.cheer-text .big {
+  font-size: clamp(48px, 10vw, 96px);
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, #ffd700 0%, #ff8c00 50%, #a8451e 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 4px 20px rgba(255, 215, 0, 0.3);
+}
+.cheer-text .sub {
+  font-size: clamp(16px, 2.5vw, 22px);
+  font-weight: 600;
+  color: #f6f3ed;
+  letter-spacing: 0.2em;
+}
+.cheer-text .hint {
+  font-size: 12px;
+  color: rgba(246, 243, 237, 0.6);
+  margin-top: 32px;
+  letter-spacing: 0.15em;
+}
+
+
+
+
+/* === V. 個人標誌 === */
+.v-mark {
+  text-align: center;
+  font-family: 'Italiana', serif;
+  font-size: 32px;
+  color: var(--ink);
+  letter-spacing: 0.15em;
+  margin: 48px auto 24px;
+  padding-top: 32px;
+  border-top: 1px solid #ddd5c5;
+  max-width: 80px;
+  line-height: 1;
+  font-weight: 400;
+  opacity: 0.7;
+}
+
+</style>
+  <link href="https://fonts.googleapis.com/css2?family=Italiana&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="header">
+    <div class="logo-area">
+      <div class="tag">YAHO ONBOARDING QUIZ</div>
+      <h1>新人產品熟悉度測驗</h1>
+    </div>
+    <div class="score-area">
+      <div class="label">目前得分</div>
+      <div class="score"><span id="scoreNow">0</span><span class="total"> / 18</span></div>
+    </div>
+  </header>
+
+  <div class="stages-bar" id="stagesBar"></div>
+
+  <!-- Welcome -->
+  <div class="screen active" id="welcomeScreen">
+    <div class="welcome">
+      <div style="font-size: 11px; letter-spacing: 0.3em; color: var(--accent); font-weight: 700; margin-bottom: 8px;">LET'S START</div>
+      <h2>準備好開始了嗎?</h2>
+      <p class="intro">
+        這份測驗共有七個關卡,每一關回答完後會立即顯示對錯。<br>
+        全對才能解鎖下一關;答錯可以看完解說後重新作答。<br>
+        完成全部關卡後,會出現結業證書。
+      </p>
+      <div class="welcome-stages">
+        <div class="item"><div class="n">01</div><div class="label">關於雅浩</div></div>
+        <div class="item"><div class="n">02</div><div class="label">Aeron</div></div>
+        <div class="item"><div class="n">03</div><div class="label">Embody</div></div>
+        <div class="item"><div class="n">04</div><div class="label">Mirra 2</div></div>
+        <div class="item"><div class="n">05</div><div class="label">Verus / Sayl</div></div>
+        <div class="item"><div class="n">06</div><div class="label">Capisco</div></div>
+        <div class="item"><div class="n">07</div><div class="label">綜合應用</div></div>
+      </div>
+      <button class="btn-primary" onclick="startQuiz()">開始第一關 →</button>
+    </div>
+  </div>
+
+  <!-- Stage screens generated by JS -->
+  <div class="screen" id="stageScreen"></div>
+
+  <!-- Final certificate -->
+  <div class="screen" id="finalScreen">
+    <div class="certificate">
+      <div class="cert-tag">CERTIFICATE OF COMPLETION</div>
+      <div class="cert-title">結業證明</div>
+      <div class="cert-sub">YAHO PRODUCT FAMILIARITY · LEVEL 1</div>
+
+      <div class="cert-score">
+        <div class="label">FINAL SCORE</div>
+        <div class="big"><span id="finalScore">18</span><span class="total"> / 18</span></div>
+      </div>
+
+      <p class="cert-message" id="finalMessage">
+        恭喜完成全部七關。您現在對雅浩家具的品牌脈絡與六款主力人體工學椅,具備了基本的產品認知。實戰中遇到客戶詢問時,記得回頭翻閱介紹文件,把每個細節再走過一次。
+      </p>
+
+      <div class="cert-meta">
+        雅浩家具 · YAHO INTERNATIONAL <br>
+        新人入職培訓 · <span id="certDate"></span>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 24px;">
+      <button class="btn-primary btn-secondary" onclick="resetQuiz()" style="background: transparent; color: var(--ink); border: 1.5px solid var(--ink);">重新測驗</button>
+    </div>
+  </div>
+
+  <div class="v-mark">V.</div>
+
+</div>
+
+<script>
+// =====================================================
+// 1. 音效系統(必須最先定義,主邏輯會引用)
+// =====================================================
+// === Sound Effects (Web Audio API,無外部檔案) ===
+let audioCtx = null;
+function getCtx() {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  return audioCtx;
+}
+
+// 點擊音 — 短促 click
+function sfxClick() {
+  const ctx = getCtx();
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(800, ctx.currentTime);
+  osc.frequency.exponentialRampToValueAtTime(400, ctx.currentTime + 0.05);
+  gain.gain.setValueAtTime(0.15, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+  osc.connect(gain).connect(ctx.destination);
+  osc.start();
+  osc.stop(ctx.currentTime + 0.1);
+}
+
+// 答對音 — 上揚雙音(C → E → G)
+function sfxCorrect() {
+  const ctx = getCtx();
+  const notes = [523.25, 659.25, 783.99]; // C5, E5, G5
+  notes.forEach((freq, i) => {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.08);
+    gain.gain.setValueAtTime(0.0001, ctx.currentTime + i * 0.08);
+    gain.gain.exponentialRampToValueAtTime(0.2, ctx.currentTime + i * 0.08 + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.08 + 0.3);
+    osc.connect(gain).connect(ctx.destination);
+    osc.start(ctx.currentTime + i * 0.08);
+    osc.stop(ctx.currentTime + i * 0.08 + 0.35);
+  });
+}
+
+// 答錯音 — 低沉雙音下降
+function sfxWrong() {
+  const ctx = getCtx();
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = 'sawtooth';
+  osc.frequency.setValueAtTime(220, ctx.currentTime);
+  osc.frequency.exponentialRampToValueAtTime(110, ctx.currentTime + 0.25);
+  gain.gain.setValueAtTime(0.15, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
+  osc.connect(gain).connect(ctx.destination);
+  osc.start();
+  osc.stop(ctx.currentTime + 0.32);
+}
+
+// 過關音 — 短旋律
+function sfxStageClear() {
+  const ctx = getCtx();
+  const notes = [523.25, 659.25, 783.99, 1046.5]; // C E G C(高八度)
+  notes.forEach((freq, i) => {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.12);
+    gain.gain.setValueAtTime(0.0001, ctx.currentTime + i * 0.12);
+    gain.gain.exponentialRampToValueAtTime(0.2, ctx.currentTime + i * 0.12 + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.12 + 0.4);
+    osc.connect(gain).connect(ctx.destination);
+    osc.start(ctx.currentTime + i * 0.12);
+    osc.stop(ctx.currentTime + i * 0.12 + 0.45);
+  });
+}
+
+// 完賽歡呼音 — 大調琶音 + 持續
+function sfxFinish() {
+  const ctx = getCtx();
+  // 主旋律
+  const melody = [
+    {f: 523.25, t: 0},      // C5
+    {f: 659.25, t: 0.1},    // E5
+    {f: 783.99, t: 0.2},    // G5
+    {f: 1046.5, t: 0.3},    // C6
+    {f: 783.99, t: 0.5},    // G5
+    {f: 1046.5, t: 0.6},    // C6
+    {f: 1318.5, t: 0.8},    // E6
+  ];
+  melody.forEach(({f, t}) => {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(f, ctx.currentTime + t);
+    gain.gain.setValueAtTime(0.0001, ctx.currentTime + t);
+    gain.gain.exponentialRampToValueAtTime(0.25, ctx.currentTime + t + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + t + 0.5);
+    osc.connect(gain).connect(ctx.destination);
+    osc.start(ctx.currentTime + t);
+    osc.stop(ctx.currentTime + t + 0.55);
+  });
+  // 低音底層
+  const bass = ctx.createOscillator();
+  const bassGain = ctx.createGain();
+  bass.type = 'sine';
+  bass.frequency.setValueAtTime(130.81, ctx.currentTime); // C3
+  bassGain.gain.setValueAtTime(0.15, ctx.currentTime);
+  bassGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.3);
+  bass.connect(bassGain).connect(ctx.destination);
+  bass.start();
+  bass.stop(ctx.currentTime + 1.4);
+}
+
+// =====================================================
+// 2. 彩帶動畫
+// =====================================================
+// === Confetti(灑彩帶)===
+let confettiAnimId = null;
+function launchConfetti(duration = 4000) {
+  const canvas = document.getElementById('confettiCanvas');
+  canvas.classList.add('show');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const colors = ['#a8451e', '#c9a373', '#ffd700', '#ff8c00', '#2d5e3e', '#f6f3ed', '#1a1a1a'];
+  const particles = [];
+  // 從畫面上方左右兩側各噴一波
+  for (let i = 0; i < 150; i++) {
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: -Math.random() * canvas.height * 0.5,
+      vx: (Math.random() - 0.5) * 6,
+      vy: Math.random() * 3 + 2,
+      size: Math.random() * 8 + 4,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      rot: Math.random() * 360,
+      rotSpeed: (Math.random() - 0.5) * 10,
+      shape: Math.random() < 0.5 ? 'rect' : 'circle'
+    });
+  }
+
+  const startTime = Date.now();
+  function frame() {
+    const elapsed = Date.now() - startTime;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += 0.1; // 重力
+      p.rot += p.rotSpeed;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot * Math.PI / 180);
+      ctx.fillStyle = p.color;
+      if (p.shape === 'rect') {
+        ctx.fillRect(-p.size/2, -p.size/4, p.size, p.size/2);
+      } else {
+        ctx.beginPath();
+        ctx.arc(0, 0, p.size/2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.restore();
+    });
+
+    if (elapsed < duration) {
+      confettiAnimId = requestAnimationFrame(frame);
+    } else {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      canvas.classList.remove('show');
+    }
+  }
+  frame();
+}
+
+// 顯示歡呼覆蓋層
+function showCheer() {
+  document.getElementById('cheerOverlay').classList.add('show');
+  setTimeout(() => {
+    closeCheer();
+  }, 3500);
+}
+function closeCheer() {
+  document.getElementById('cheerOverlay').classList.remove('show');
+}
+
+// === Resize confetti canvas ===
+window.addEventListener('resize', () => {
+  const c = document.getElementById('confettiCanvas');
+  if (c) { c.width = window.innerWidth; c.height = window.innerHeight; }
+});
+
+// =====================================================
+// 3. 主測驗邏輯
+// =====================================================
+// === Quiz data === ============================================
+const STAGES = [
+  {
+    title: "關於雅浩",
+    subtitle: "STAGE 01 · BRAND BASICS",
+    questions: [
+      {
+        q: "雅浩家具創立於哪一年?",
+        options: ["1978 年", "1988 年", "1998 年", "2008 年"],
+        answer: 1,
+        explain: "1988 年創立,2026 年滿 38 週年。雅浩的競爭優勢是品牌信譽與保固承諾,不打價格戰。"
+      },
+      {
+        q: "雅浩在台灣是哪個國際集團的獨家認證代理(Certified Dealer)?",
+        options: ["IKEA", "Steelcase", "MillerKnoll(Herman Miller + Knoll)", "Haworth"],
+        answer: 2,
+        explain: "MillerKnoll = Herman Miller + Knoll,全球辦公家具的老大。雅浩是台灣獨家認證(Certified Dealer)— 客人問「是不是水貨」就理直氣壯回:原廠認證,12 年保固直通原廠。"
+      }
+    ]
+  },
+  {
+    title: "Aeron 入門",
+    subtitle: "STAGE 02 · AERON 1994",
+    questions: [
+      {
+        q: "Aeron 椅提供幾種尺寸,以對應不同身型?",
+        options: ["1 種(通用)", "2 種(S / L)", "3 種(A / B / C)", "5 種"],
+        answer: 2,
+        explain: "A、B、C 三種尺寸。Aeron 的設計邏輯是「換尺寸」對應不同身型,而非單一椅子靠調整去適應 — 這是它與大多數人體工學椅最大的差異。"
+      },
+      {
+        q: "Aeron 椅的網布技術名稱是?",
+        options: ["TriFlex Mesh", "8Z Pellicle", "AireWeave", "Sync Fabric"],
+        answer: 1,
+        explain: "8 區張力網布(座面 4 區+背靠 4 區),每一區張力不同,目的是把體重平均分散到對的位置,避免身體陷入而造成駝背。"
+      },
+      {
+        q: "Aeron 的設計師是誰?",
+        options: ["Charles & Ray Eames", "Yves Béhar", "Bill Stumpf 與 Don Chadwick", "Peter Opsvik"],
+        answer: 2,
+        explain: "Bill Stumpf 與 Don Chadwick 設計,1994 年問世;2016 年 Remastered 重塑經典;2021 年進一步強化永續材料應用 — Aeron 在不同世代中持續回應工作與環境需求。"
+      }
+    ]
+  },
+  {
+    title: "Embody 旗艦",
+    subtitle: "STAGE 03 · EMBODY 2008",
+    questions: [
+      {
+        q: "Embody 椅最招牌的支撐技術名稱是?",
+        options: ["Loop Spine 環狀椎架", "Pixelated Support 像素支撐", "PostureFit SL", "HÅG in Balance"],
+        answer: 1,
+        explain: "像素矩陣支撐(Pixelated Support)是 Embody 的核心技術。椅背與座面由一格一格的小單元組成,可跟著身體微動同步調整,因此坐感同時具備「支撐」與「活動自由度」。"
+      },
+      {
+        q: "Embody 在研發過程中,邀請了哪一類專業人士參與?",
+        options: ["建築師與室內設計師", "賽車工程師", "20+ 位生物力學、視覺、物理治療與人體工學的醫師與博士", "汽車製造商"],
+        answer: 2,
+        explain: "Embody 的研發過程結合人體工學與醫療專業背景 — 30 多位生物力學、視力、物理治療、人體工學領域的醫生與博士共同參與。在面對價格疑慮時,這是核心訴求點之一。"
+      }
+    ]
+  },
+  {
+    title: "Mirra 2",
+    subtitle: "STAGE 04 · MIRRA 2",
+    questions: [
+      {
+        q: "Mirra 2 提供哪兩種背靠選擇?",
+        options: ["Standard / Premium", "Butterfly Back / TriFlex", "Mesh / Fabric", "Low / High"],
+        answer: 1,
+        explain: "Butterfly Back(蝴蝶背,含布料層)與 TriFlex(無布料層,易清潔)。TriFlex 並非低階版本,而是專為無塵室、診所、需定期擦拭的環境設計 — 介紹時要先確認客戶的實際使用場景。"
+      },
+      {
+        q: "Mirra 2 是哪個設計團隊的作品?他們為哪一種使用情境而設計?",
+        options: ["Yves Béhar / 居家辦公", "Studio 7.5(德國)/ 為連續運動狀態的員工提供支援", "Bill Stumpf / 高階主管", "Peter Opsvik / 升降桌使用者"],
+        answer: 1,
+        explain: "德國 Studio 7.5 設計。Mirra 2 適合的使用情境是「需要在會議、座位之間頻繁切換」的上班族;若客戶反映「整天在電腦前」,則 Embody 是更貼近的選擇。"
+      },
+      {
+        q: "Mirra 2 的承重範圍是?",
+        options: ["20-100 公斤", "30-120 公斤", "41-159 公斤", "50-200 公斤"],
+        answer: 2,
+        explain: "承重範圍 41-159 公斤。Harmonic 2 板簧傾仰機構在大尺碼客戶身上的後仰順暢度,是 Mirra 2 在同價位椅款中的差異點。"
+      }
+    ]
+  },
+  {
+    title: "Verus 與 Sayl",
+    subtitle: "STAGE 05 · VERUS / SAYL",
+    questions: [
+      {
+        q: "客戶預算有限,但想要 Herman Miller 等級的工藝與保固。最適合推薦的椅款是?",
+        options: ["Aeron", "Embody", "Verus", "Capisco"],
+        answer: 2,
+        explain: "Verus 保留 Herman Miller 核心人體工學設計 — 三種靠背、座深可調、159 公斤載重、12 年保固皆完整。外型簡潔、適應性高,適合在預算與功能間尋找平衡的客戶。"
+      },
+      {
+        q: "Sayl 椅的設計靈感來源是什麼?",
+        options: ["古希臘神廟", "舊金山金門大橋的懸索結構", "北歐冰川", "日本枯山水"],
+        answer: 1,
+        explain: "Yves Béhar 設計,靈感取自金門大橋。客戶對外型有疑問時,可從懸索結構說明 — Sayl 的「無框架椅背」是設計巧思,不是省略結構。"
+      },
+      {
+        q: "Sayl 的名字「Sail → Sayl」典故是?",
+        options: ["設計師名字的縮寫", "側面像主帆,把 I 換成 Y 象徵 Y 型懸塔", "Say + Yes 的諧音", "Sail 拼錯字"],
+        answer: 1,
+        explain: "Sail(帆)→ Sayl,設計師將 I 改為 Y,象徵金門大橋的 Y 型懸塔。Sayl 的命名本身即包含設計脈絡,是介紹這款椅子時可帶入的差異化內容。"
+      }
+    ]
+  },
+  {
+    title: "HÅG Capisco",
+    subtitle: "STAGE 06 · CAPISCO 1984",
+    questions: [
+      {
+        q: "HÅG Capisco 馬鞍椅的設計靈感來自?",
+        options: ["太空艙座椅", "馬背騎手的動態姿勢", "腳踏車座墊", "嬰兒椅"],
+        answer: 1,
+        explain: "Peter Opsvik(挪威)1984 年設計,靈感取自騎馬姿勢。馬鞍式座椅讓大腿可自然張開,使用者不會被限制在固定 90 度坐姿 — 這是 Capisco 與其他人體工學椅最關鍵的結構差異。"
+      },
+      {
+        q: "Peter Opsvik 提出的核心設計理念是?",
+        options: ["最好的坐姿,就是坐得正", "最好的坐姿,永遠是下一個坐姿", "最好的椅子,是最舒服的椅子", "坐姿不重要,有椅子坐就好"],
+        answer: 1,
+        explain: "「最好的坐姿,永遠是下一個坐姿。」這句設計哲學是 Capisco 的核心訴求 — 強調身體需要在不同姿勢間自然變換,而非固定維持單一坐姿。"
+      }
+    ]
+  },
+  {
+    title: "綜合應用",
+    subtitle: "STAGE 07 · SCENARIO",
+    questions: [
+      {
+        q: "一位客戶在電腦前工作超過 10 小時,希望椅子能「跟著身體微動作走」,且不在意預算。最適合推薦的是?",
+        options: ["Sayl(色彩活潑、入門價)", "Verus(高性價比)", "Embody(像素支撐+為長時間電腦工作設計)", "Mirra 2(切換協作場景)"],
+        answer: 2,
+        explain: "長時間電腦工作 + 預算充足的情境,Embody 是首選。像素矩陣可同步微動作,長時間坐姿下的疲勞感較其他椅款明顯較低。Mirra 2 在此情境下亦可,但 Embody 的差異在「長時間靜態坐姿」更明顯。"
+      },
+      {
+        q: "客戶在升降桌工作,希望能在「坐、站、半站」之間切換,還要側坐看同事螢幕。哪一張椅子最對位?",
+        options: ["Aeron(三尺寸標竿)", "HÅG Capisco(馬鞍座,多坐姿)", "Embody(像素支撐)", "Mirra 2(蝴蝶背)"],
+        answer: 1,
+        explain: "升降桌 + 多種坐姿需求的情境,Capisco 是唯一對應的選擇。其他椅款以單一坐姿為設計前提,Capisco 則支援前傾、後仰、側坐、半站立等多種姿勢。"
+      },
+      {
+        q: "Herman Miller 系列(Aeron、Embody、Mirra 2、Verus 等)在雅浩購入,享有幾年原廠保固?",
+        options: ["3 年", "5 年", "10 年", "12 年"],
+        answer: 3,
+        explain: "12 年原廠保固,2020 年 1 月以後購入適用。此年限為辦公椅市場中較長者之一,也是雅浩主要的服務承諾。"
+      }
+    ]
+  }
+];
+
+// === State ===
+let currentStage = 0;
+let totalScore = 0;
+let stageState = []; // per stage: { selected: [], submitted: bool, cleared: bool }
+
+function initState() {
+  stageState = STAGES.map(s => ({
+    selected: new Array(s.questions.length).fill(null),
+    submitted: false,
+    cleared: false
+  }));
+}
+initState();
+
+// === DOM helpers ===
+function renderStagesBar() {
+  const bar = document.getElementById('stagesBar');
+  bar.innerHTML = STAGES.map((s, i) => {
+    let cls = 'stage-dot';
+    if (stageState[i].cleared) cls += ' cleared';
+    else if (i === currentStage) cls += ' current';
+    else if (i > currentStage) cls += ' locked';
+    return `<div class="${cls}"><span class="num">${String(i+1).padStart(2,'0')}</span>${s.title}</div>`;
+  }).join('');
+}
+
+function updateScore() {
+  document.getElementById('scoreNow').textContent = totalScore;
+}
+
+function renderStage(idx) {
+  const stage = STAGES[idx];
+  const state = stageState[idx];
+  const screen = document.getElementById('stageScreen');
+
+  const questionsHtml = stage.questions.map((q, qi) => {
+    const sel = state.selected[qi];
+    const submitted = state.submitted;
+
+    const optionsHtml = q.options.map((opt, oi) => {
+      let cls = 'option';
+      if (sel === oi && !submitted) cls += ' selected';
+      if (submitted) {
+        cls += ' disabled';
+        if (oi === q.answer) cls += ' correct';
+        else if (sel === oi) cls += ' incorrect';
+      }
+      const marker = String.fromCharCode(65 + oi);
+      return `<button class="${cls}" onclick="selectOption(${qi}, ${oi})" ${submitted?'disabled':''}>
+        <span class="marker">${marker}</span>
+        <span>${opt}</span>
+      </button>`;
+    }).join('');
+
+    let feedbackHtml = '';
+    if (submitted) {
+      const isCorrect = sel === q.answer;
+      feedbackHtml = `<div class="feedback ${isCorrect?'correct':'incorrect'} show">
+        <strong>${isCorrect?'答對了。':'這題答錯了。'}</strong> ${q.explain}
+      </div>`;
+    }
+
+    return `<div class="question-block">
+      <span class="q-num">Q${qi+1}</span>
+      <div class="q-text">${q.q}</div>
+      <div class="options">${optionsHtml}</div>
+      ${feedbackHtml}
+    </div>`;
+  }).join('');
+
+  // Decide action buttons
+  let actionsHtml = '';
+  const allAnswered = state.selected.every(s => s !== null);
+
+  if (!state.submitted) {
+    actionsHtml = `<div class="stage-actions">
+      <div class="stage-status">${allAnswered ? '<span class="pending">已全部作答,送出檢查</span>' : '<span>請完成本關所有題目</span>'}</div>
+      <button class="btn-stage" ${allAnswered?'':'disabled'} onclick="submitStage()">送出答案</button>
+    </div>`;
+  } else if (state.cleared) {
+    const isLast = idx === STAGES.length - 1;
+    actionsHtml = `<div class="clear-banner show">
+      <div class="tag">STAGE CLEARED</div>
+      <h3>第 ${String(idx+1).padStart(2,'0')} 關 過關</h3>
+      <p>${getClearMessage(idx)}</p>
+    </div>
+    <div class="stage-actions" style="justify-content: flex-end;">
+      <button class="btn-stage" onclick="${isLast?'finishQuiz()':'nextStage()'}">${isLast?'查看結業證書 →':'進入下一關 →'}</button>
+    </div>`;
+  } else {
+    actionsHtml = `<div class="stage-actions">
+      <div class="stage-status">這關有題目沒答對,重新作答看看</div>
+      <button class="btn-stage btn-secondary" style="background: transparent; color: var(--ink); border: 1.5px solid var(--ink);" onclick="retryStage()">重新作答</button>
+    </div>`;
+  }
+
+  screen.innerHTML = `<div class="stage-card">
+    <div class="stage-head">
+      <div class="left">
+        <div class="lvl">${stage.subtitle}</div>
+        <h2>${stage.title}</h2>
+      </div>
+      <div class="right">本關 ${stage.questions.length} 題 · 全對才能解鎖下一關</div>
+    </div>
+    <div class="stage-body">
+      ${questionsHtml}
+      ${actionsHtml}
+    </div>
+  </div>`;
+}
+
+function getClearMessage(idx) {
+  const msgs = [
+    "品牌背景已熟悉,接下來進入產品線介紹。",
+    "Aeron 是人體工學椅的指標款,適合作為產品線介紹的起點。",
+    "Embody 的醫療研發背景已掌握 — 面對價格疑慮時的核心切入點。",
+    "Mirra 2 適合在會議、座位間頻繁切換的客戶 — 場景判斷是推薦準確度的關鍵。",
+    "Verus 對應預算敏感客戶,Sayl 對應重視設計感的客戶,推薦邏輯到位。",
+    "Capisco 的核心訴求是「最好的坐姿,永遠是下一個」 — 介紹這張椅子的關鍵脈絡。",
+    "全對。場景判斷與產品對應到位,可進入實際接客練習。"
+  ];
+  return msgs[idx];
+}
+
+// === Actions ===
+function startQuiz() {
+  document.getElementById('welcomeScreen').classList.remove('active');
+  document.getElementById('stageScreen').classList.add('active');
+  renderStage(currentStage);
+  renderStagesBar();
+  window.scrollTo({top: 0, behavior: 'smooth'});
+  // 第一次互動,讓 audioCtx 可以正常啟動(瀏覽器需要使用者手勢)
+  sfxClick();
+}
+
+function selectOption(qi, oi) {
+  const state = stageState[currentStage];
+  if (state.submitted) return;
+  sfxClick();
+  state.selected[qi] = oi;
+  renderStage(currentStage);
+}
+
+function submitStage() {
+  const stage = STAGES[currentStage];
+  const state = stageState[currentStage];
+  state.submitted = true;
+
+  // Check all correct
+  const allCorrect = stage.questions.every((q, qi) => state.selected[qi] === q.answer);
+
+  if (allCorrect) {
+    state.cleared = true;
+    // Add score (per question, 1 pt each)
+    totalScore += stage.questions.length;
+    updateScore();
+    sfxStageClear();
+  } else {
+    // 至少有一題答對也算給點正向回饋,全錯則播錯誤音
+    const anyCorrect = stage.questions.some((q, qi) => state.selected[qi] === q.answer);
+    if (anyCorrect) {
+      sfxCorrect();
+    } else {
+      sfxWrong();
+    }
+  }
+
+  renderStage(currentStage);
+  renderStagesBar();
+}
+
+function retryStage() {
+  // Reset this stage's state but DON'T lose previously earned score
+  // (since we only added score on clear, and clear means all correct, so nothing to roll back)
+  const state = stageState[currentStage];
+  state.selected = new Array(STAGES[currentStage].questions.length).fill(null);
+  state.submitted = false;
+  state.cleared = false;
+  renderStage(currentStage);
+}
+
+function nextStage() {
+  if (currentStage < STAGES.length - 1) {
+    currentStage++;
+    renderStage(currentStage);
+    renderStagesBar();
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
+}
+
+function finishQuiz() {
+  document.getElementById('stageScreen').classList.remove('active');
+  document.getElementById('finalScreen').classList.add('active');
+  document.getElementById('finalScore').textContent = totalScore;
+
+  // 慶賀:歡呼音 + 彩帶 + 覆蓋層
+  sfxFinish();
+  launchConfetti(4500);
+  showCheer();
+
+  // Date stamp
+  const d = new Date();
+  document.getElementById('certDate').textContent =
+    `${d.getFullYear()} / ${String(d.getMonth()+1).padStart(2,'0')} / ${String(d.getDate()).padStart(2,'0')}`;
+
+  // 走到結業證書代表全部過關,直接給結業訊息
+  document.getElementById('finalMessage').textContent =
+    "完成這份測驗代表已熟悉基本產品線。實際接客時可隨時對照介紹文件,確認細節。";
+
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function resetQuiz() {
+  currentStage = 0;
+  totalScore = 0;
+  initState();
+  updateScore();
+  document.getElementById('finalScreen').classList.remove('active');
+  document.getElementById('welcomeScreen').classList.add('active');
+  renderStagesBar();
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+// Initial render
+renderStagesBar();
+updateScore();
+</script>
+
+
+
+<canvas id="confettiCanvas" class="confetti-canvas"></canvas>
+<div id="cheerOverlay" class="cheer-overlay" onclick="closeCheer()">
+  <div class="cheer-text">
+    <div class="big">恭喜過關!</div>
+    <div class="sub">CONGRATULATIONS</div>
+    <div class="hint">點任意處繼續</div>
+  </div>
+</div>
+
+
+
+
+</body>
+</html>

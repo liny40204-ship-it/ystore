@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>雅浩家具 新人產品入門</title>
+<style>
+:root {
+  --ink: #1a1a1a;
+  --ink-soft: #3a3a3a;
+  --paper: #f6f3ed;
+  --paper-soft: #ece7dc;
+  --line: #2a2a2a;
+  --accent: #a8451e;
+  --accent-soft: #c9a373;
+  --muted: #7a7264;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Microsoft JhengHei', '微軟正黑體', -apple-system, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.75;
+  font-feature-settings: "palt";
+  letter-spacing: 0.02em;
+}
+
+.wrap { max-width: 1080px; margin: 0 auto; padding: 48px 32px 80px; }
+
+.hero {
+  border-bottom: 2px solid var(--line);
+  padding-bottom: 36px;
+  margin-bottom: 40px;
+}
+
+.hero-tag {
+  display: inline-block;
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.hero h1 {
+  font-size: clamp(32px, 4.5vw, 52px);
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  color: var(--ink);
+  margin-bottom: 14px;
+}
+
+.hero h1 .sub {
+  display: block;
+  font-size: clamp(16px, 1.8vw, 20px);
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: 0.15em;
+  margin-top: 8px;
+}
+
+.hero-meta {
+  display: flex;
+  gap: 28px;
+  margin-top: 24px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  flex-wrap: wrap;
+}
+
+.hero-meta span::before {
+  content: "—";
+  color: var(--accent);
+  margin-right: 8px;
+  font-weight: 700;
+}
+
+.nav {
+  position: sticky;
+  top: 12px;
+  z-index: 100;
+  background: var(--ink);
+  border-radius: 999px;
+  padding: 10px 8px;
+  margin-bottom: 56px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.nav::-webkit-scrollbar { display: none; }
+
+.nav button {
+  background: transparent;
+  border: none;
+  color: rgba(246, 243, 237, 0.7);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+  letter-spacing: 0.05em;
+}
+.nav button:hover { color: var(--paper); }
+.nav button.active { background: var(--accent); color: white; }
+
+.section { margin-bottom: 72px; scroll-margin-top: 80px; }
+.section-no { font-size: 12px; letter-spacing: 0.4em; color: var(--accent); font-weight: 700; margin-bottom: 8px; }
+.section-title { font-size: 32px; font-weight: 900; letter-spacing: -0.01em; margin-bottom: 8px; }
+.section-sub { font-size: 14px; color: var(--muted); margin-bottom: 32px; letter-spacing: 0.08em; }
+
+.yaho-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.yaho-card {
+  background: white;
+  border: 1px solid #ddd5c5;
+  border-radius: 4px;
+  padding: 28px;
+  transition: all 0.3s;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.yaho-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 4px; height: 100%;
+  background: var(--accent);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.3s;
+}
+
+.yaho-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+.yaho-card:hover::before { transform: scaleY(1); }
+
+.yaho-card .num {
+  font-size: 48px;
+  font-weight: 900;
+  color: var(--accent-soft);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.yaho-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+.yaho-card p { font-size: 14px; color: var(--ink-soft); line-height: 1.7; }
+
+.brand-matrix {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 36px 32px;
+  border-radius: 4px;
+  margin-top: 32px;
+}
+
+.brand-matrix h3 {
+  font-size: 14px;
+  letter-spacing: 0.3em;
+  color: var(--accent-soft);
+  margin-bottom: 24px;
+  font-weight: 700;
+}
+
+.brand-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 1px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.brand-item {
+  background: var(--ink);
+  padding: 16px 12px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  transition: all 0.2s;
+}
+
+.brand-item:hover { background: var(--accent); color: white; }
+.brand-item .origin {
+  display: block;
+  font-size: 10px;
+  color: var(--accent-soft);
+  margin-top: 4px;
+  letter-spacing: 0.15em;
+}
+.brand-item:hover .origin { color: rgba(255,255,255,0.7); }
+
+.chair-tabs {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 24px;
+  background: var(--paper-soft);
+  padding: 4px;
+  border-radius: 4px;
+  flex-wrap: wrap;
+}
+
+.chair-tabs button {
+  flex: 1;
+  min-width: 100px;
+  background: transparent;
+  border: none;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 12px 14px;
+  border-radius: 3px;
+  cursor: pointer;
+  color: var(--ink-soft);
+  letter-spacing: 0.05em;
+  transition: all 0.2s;
+}
+
+.chair-tabs button:hover { color: var(--ink); }
+.chair-tabs button.active { background: var(--ink); color: var(--paper); }
+
+.chair-tabs button .badge {
+  display: inline-block;
+  font-size: 10px;
+  background: var(--accent);
+  color: white;
+  padding: 1px 6px;
+  border-radius: 2px;
+  margin-left: 4px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  vertical-align: middle;
+}
+
+.chair-panel { display: none; background: white; border: 1px solid #ddd5c5; border-radius: 4px; overflow: hidden; }
+.chair-panel.active { display: block; }
+
+.chair-header { display: grid; grid-template-columns: 320px 1fr; gap: 0; border-bottom: 1px solid #ddd5c5; }
+
+.chair-image {
+  background: var(--paper-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  min-height: 320px;
+  position: relative;
+}
+
+.chair-image img { max-width: 100%; max-height: 280px; object-fit: contain; }
+
+.chair-image .placeholder { text-align: center; color: var(--muted); font-size: 13px; line-height: 1.8; }
+.chair-image .placeholder strong { display: block; font-size: 18px; color: var(--ink); margin-bottom: 6px; letter-spacing: 0.1em; }
+
+.chair-meta { padding: 32px; }
+
+.chair-brand { font-size: 11px; letter-spacing: 0.3em; color: var(--accent); font-weight: 700; margin-bottom: 8px; }
+.chair-meta h2 { font-size: 32px; font-weight: 900; letter-spacing: -0.01em; margin-bottom: 12px; line-height: 1.1; }
+.chair-tagline { font-size: 14px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 20px; }
+
+.chair-keypoints { display: flex; flex-wrap: wrap; gap: 8px; }
+.chair-keypoints span {
+  background: var(--paper-soft);
+  color: var(--ink);
+  font-size: 12px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.chair-body { padding: 32px; }
+
+.chair-story {
+  font-size: 15px;
+  line-height: 1.85;
+  color: var(--ink-soft);
+  margin-bottom: 28px;
+  border-left: 3px solid var(--accent);
+  padding-left: 20px;
+}
+.chair-story strong { color: var(--ink); font-weight: 700; }
+
+.chair-features-title, .chair-spec-title {
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 16px;
+  padding-top: 8px;
+}
+
+.features-list { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 24px; margin-bottom: 32px; }
+
+.feature { display: flex; gap: 12px; align-items: flex-start; }
+
+.feature .dot {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+}
+
+.feature-text { font-size: 13.5px; line-height: 1.65; color: var(--ink-soft); }
+.feature-text strong { color: var(--ink); font-weight: 700; }
+
+.spec-table { background: var(--paper-soft); border-radius: 4px; padding: 4px; }
+.spec-row {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  padding: 10px 16px;
+  font-size: 13px;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+.spec-row:last-child { border-bottom: none; }
+.spec-row .label { font-weight: 700; color: var(--ink); letter-spacing: 0.05em; }
+.spec-row .value { color: var(--ink-soft); }
+
+.designer-block {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 20px 24px;
+  margin-top: 24px;
+  border-radius: 4px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 20px;
+  align-items: center;
+}
+
+.designer-block .label { font-size: 10px; letter-spacing: 0.3em; color: var(--accent-soft); font-weight: 700; margin-bottom: 4px; }
+.designer-block .name { font-size: 18px; font-weight: 700; line-height: 1.3; }
+.designer-block .year {
+  font-family: 'Georgia', serif;
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--accent-soft);
+  line-height: 1;
+}
+
+.progress-wrap { position: fixed; top: 0; left: 0; right: 0; height: 3px; background: rgba(0,0,0,0.05); z-index: 200; }
+.progress-bar { height: 100%; background: var(--accent); width: 0%; transition: width 0.1s; }
+
+.footer {
+  margin-top: 80px;
+  padding-top: 32px;
+  border-top: 1px solid #ddd5c5;
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+  letter-spacing: 0.1em;
+}
+
+@media (max-width: 768px) {
+  .wrap { padding: 32px 20px 60px; }
+  .yaho-grid { grid-template-columns: 1fr; }
+  .chair-header { grid-template-columns: 1fr; }
+  .chair-image { min-height: 240px; }
+  .features-list { grid-template-columns: 1fr; }
+  .designer-block { grid-template-columns: 1fr; text-align: center; }
+}
+
+
+
+
+/* === V. 個人標誌 === */
+.v-mark {
+  text-align: center;
+  font-family: 'Italiana', serif;
+  font-size: 32px;
+  color: var(--ink);
+  letter-spacing: 0.15em;
+  margin: 48px auto 24px;
+  padding-top: 32px;
+  border-top: 1px solid #ddd5c5;
+  max-width: 80px;
+  line-height: 1;
+  font-weight: 400;
+  opacity: 0.7;
+}
+
+</style>
+  <link href="https://fonts.googleapis.com/css2?family=Italiana&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="hero-tag">YAHO NEW HIRE ONBOARDING</div>
+    <h1>
+      雅浩家具 新人產品入門
+      <span class="sub">PRODUCT FAMILIARITY GUIDE</span>
+    </h1>
+    <p style="color: var(--ink-soft); font-size: 15px; max-width: 720px;">
+      這份指南帶您走過雅浩家具的品牌脈絡,以及六款最常被詢問、最具代表性的人體工學椅。看完之後,您能向客戶說出每張椅子的特色、設計師,以及它為什麼貴。
+    </p>
+    <div class="hero-meta">
+      <span>建議閱讀時間 15-20 分鐘</span>
+      <span>可隨時回頭查閱</span>
+      <span>看完接著做小測驗</span>
+    </div>
+  </header>
+
+  <nav class="nav" id="nav">
+    <button data-target="yaho" class="active">關於雅浩</button>
+    <button data-target="aeron">Aeron</button>
+    <button data-target="embody">Embody</button>
+    <button data-target="mirra2">Mirra 2</button>
+    <button data-target="verus">Verus</button>
+    <button data-target="sayl">Sayl</button>
+    <button data-target="capisco">Capisco</button>
+  </nav>
+
+  <section class="section" id="yaho">
+    <div class="section-no">PART 01</div>
+    <h2 class="section-title">關於雅浩家具</h2>
+    <p class="section-sub">YAHO INTERNATIONAL · SINCE 1988</p>
+
+    <div class="yaho-grid">
+      <div class="yaho-card">
+        <div class="num">38<span style="font-size:18px;">年</span></div>
+        <h3>1988 年創立</h3>
+        <p>從台北起家,專注辦公與居家家具解決方案,以「健康」為品牌核心。三十多年來,服務遍及企業、學校、醫療機構與建築室內設計領域。</p>
+      </div>
+      <div class="yaho-card">
+        <div class="num" style="font-size:32px; padding-top:14px;">MillerKnoll</div>
+        <h3>台灣獨家認證代理</h3>
+        <p>MillerKnoll 是 Herman Miller 與 Knoll 合併後的全球最大辦公家具集團。雅浩為其在台灣的獨家認證經銷商(Certified Dealer),導入原廠級服務與規格。</p>
+      </div>
+      <div class="yaho-card">
+        <div class="num">12<span style="font-size:18px;">年</span></div>
+        <h3>HMI 人體工學椅原廠保固</h3>
+        <p>2020 年元月 1 日起,於雅浩直營展示中心或認可經銷商購入之 Herman Miller 人體工學椅,享有 12 年原廠保固。</p>
+      </div>
+      <div class="yaho-card">
+        <div class="num" style="font-size:32px; padding-top:14px;">人體工學</div>
+        <h3>不只賣家具,更推廣坐的科學</h3>
+        <p>從工作性質、生活習慣到休閒活動進行評估,提供客製化人體工學解決方案。指導客戶改善因姿勢不正確、設備不適造成的身體傷害。</p>
+      </div>
+    </div>
+
+    <div class="brand-matrix">
+      <h3>代理品牌矩陣</h3>
+      <div class="brand-grid">
+        <div class="brand-item">Herman Miller<span class="origin">USA</span></div>
+        <div class="brand-item">Knoll<span class="origin">USA</span></div>
+        <div class="brand-item">Geiger<span class="origin">USA</span></div>
+        <div class="brand-item">NaughtOne<span class="origin">UK</span></div>
+        <div class="brand-item">HÅG<span class="origin">NORWAY</span></div>
+        <div class="brand-item">Framery<span class="origin">FINLAND</span></div>
+        <div class="brand-item">Normann<span class="origin">DENMARK</span></div>
+        <div class="brand-item">muuto<span class="origin">DENMARK</span></div>
+        <div class="brand-item">Allermuir<span class="origin">UK</span></div>
+        <div class="brand-item">Senator<span class="origin">UK</span></div>
+        <div class="brand-item">CBS<span class="origin">UK</span></div>
+        <div class="brand-item">Madesk<span class="origin">TAIWAN</span></div>
+      </div>
+      <p style="font-size: 12px; color: rgba(246,243,237,0.6); margin-top: 20px; letter-spacing: 0.08em;">
+        以辦公系統家具與經典設計師家具為兩大主軸,涵蓋電動升降桌、人體工學椅、沙發、地毯、儲物與電腦周邊。
+      </p>
+    </div>
+  </section>
+
+  <section class="section" id="chairs">
+    <div class="section-no">PART 02</div>
+    <h2 class="section-title">人體工學椅 六大主力</h2>
+    <p class="section-sub">SIX ESSENTIAL ERGONOMIC CHAIRS · 點上方任一椅款切換</p>
+
+    <div class="chair-tabs" id="chairTabs">
+      <button data-chair="aeron" class="active">Aeron <span class="badge">經典</span></button>
+      <button data-chair="embody">Embody <span class="badge">旗艦</span></button>
+      <button data-chair="mirra2">Mirra 2</button>
+      <button data-chair="verus">Verus</button>
+      <button data-chair="sayl">Sayl</button>
+      <button data-chair="capisco">Capisco</button>
+    </div>
+
+    <div class="chair-panel active" data-panel="aeron">
+      <div class="chair-header">
+        <div class="chair-image">
+          <img src="https://www.hermanmiller.com/content/dam/hmicom/page_assets/products/aeron_chair/202106/mh_prd_ovw_aeron_chair.jpg.rendition.480.360.jpg" alt="Aeron Chair">
+        </div>
+        <div class="chair-meta">
+          <div class="chair-brand">HERMAN MILLER</div>
+          <h2>Aeron Chair</h2>
+          <p class="chair-tagline">人體工學椅的標竿,1994 年至今仍是標準</p>
+          <div class="chair-keypoints">
+            <span>三種尺寸 A/B/C</span>
+            <span>8Z Pellicle 網布</span>
+            <span>PostureFit SL</span>
+            <span>Harmonic 2 Tilt</span>
+            <span>50%+ 回收材質</span>
+          </div>
+        </div>
+      </div>
+      <div class="chair-body">
+        <p class="chair-story">
+          Aeron 自 1994 年推出至今,長期被視為 Herman Miller 最具代表性的人體工學椅之一。客人試坐覺得網布有點硬時,可以從支撐原理切入:<strong>「這是 8Z Pellicle 八區網布,每一區的張力不同,目的是把體重平均分散到對的位置 — 不是讓人陷下去,陷下去反而會駝背。」</strong><br><br>
+          兩個重點:第一,海洋回收塑膠 — 用 50% 以上回收料,介紹給有 ESG 訴求的企業客戶時可以提。第二,四個顏色都用大地元素命名:<strong>Onyx(啞光黑)、Graphite(石墨黑)、Carbon(碳灰)、Mineral(礦石白)</strong>,建議連同色名與材料名稱一起介紹。三個尺寸 A、B、C 不是調整數值,是換椅子,身高體型對應不到時直接換尺寸。
+        </p>
+
+        <div class="chair-features-title">五大核心技術</div>
+        <div class="features-list">
+          <div class="feature"><div class="dot">1</div><div class="feature-text"><strong>8Z Pellicle® 八區網布</strong><br>座面 4 區 + 背靠 4 區的不同張力區。張力最大的區域讓身體離開椅框、穩坐中間;較柔和的區域則貼合與椅體接觸的骨骼,均衡分佈體重</div></div>
+          <div class="feature"><div class="dot">2</div><div class="feature-text"><strong>PostureFit SL® 脊椎支撐</strong><br>同時支援脊椎的薦骨與腰部區域,讓脊椎保持自然 S 形</div></div>
+          <div class="feature"><div class="dot">3</div><div class="feature-text"><strong>Harmonic™ 2 Tilt 傾仰</strong><br>高性能傾仰機構,可以跟著身體自然動作,提供順暢的後仰</div></div>
+          <div class="feature"><div class="dot">4</div><div class="feature-text"><strong>三種尺寸 A / B / C</strong><br>不是改數值,是改尺寸 — 精準對應第 1-99 百分位身型</div></div>
+          <div class="feature"><div class="dot">5</div><div class="feature-text"><strong>50% 以上回收材質</strong><br>包含海洋環保型塑膠,首個取得 Cradle to Cradle V3 銀級認證的 Herman Miller 產品</div></div>
+        </div>
+
+        <div class="chair-spec-title">基本規格</div>
+        <div class="spec-table">
+          <div class="spec-row"><div class="label">尺寸</div><div class="value">A(小)/ B(中)/ C(大)三種,對應第 1-99 百分位身型</div></div>
+          <div class="spec-row"><div class="label">材質</div><div class="value">Pellicle 網狀纖維、複合纖維結構、環保塑料、鋁合金、鍍鉻鋼(視配置)</div></div>
+          <div class="spec-row"><div class="label">升降範圍</div><div class="value">最高可升至 53.02 cm(Standard 標準款)</div></div>
+          <div class="spec-row"><div class="label">扶手</div><div class="value">可升降 / 左右 / 前後三向調整(視配置)</div></div>
+          <div class="spec-row"><div class="label">椅輪</div><div class="value">65mm 地毯用 / 硬地用兩種</div></div>
+          <div class="spec-row"><div class="label">保固</div><div class="value">原廠 12 年</div></div>
+        </div>
+
+        <div class="designer-block">
+          <div class="year">1994</div>
+          <div>
+            <div class="label">DESIGNERS</div>
+            <div class="name">Bill Stumpf × Don Chadwick</div>
+            <p style="font-size: 13px; color: rgba(246,243,237,0.7); margin-top: 6px;">1994 年問世;2016 年 Remastered 重塑經典;2021 年進一步強化永續材料應用 — Aeron 在不同世代中持續回應工作與環境需求。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chair-panel" data-panel="embody">
+      <div class="chair-header">
+        <div class="chair-image">
+          <img src="https://www.hermanmiller.com/content/dam/hmicom/page_assets/products/embody_chairs/th_prd_embody_chairs_office_chairs_fn.jpg.rendition.480.480.jpg" alt="Embody Chair">
+        </div>
+        <div class="chair-meta">
+          <div class="chair-brand">HERMAN MILLER</div>
+          <h2>Embody Chair</h2>
+          <p class="chair-tagline">為長時間電腦工作而生 — 第一張同時照顧身體與心智的椅子</p>
+          <div class="chair-keypoints">
+            <span>Pixelated Support 像素支撐</span>
+            <span>仿脊椎背靠</span>
+            <span>Backfit 背部貼合</span>
+            <span>四層座墊</span>
+            <span>20+ 位醫師參與研發</span>
+          </div>
+        </div>
+      </div>
+      <div class="chair-body">
+        <p class="chair-story">
+          Embody 是給「整天都在電腦前的人」的椅子。Embody 的設計源於對現代工作型態的觀察 — 長時間電腦工作容易限制身體自然活動,因此設計團隊希望打造一張能隨身體微動、降低久坐壓力的座椅。<br><br>
+          這張椅子由 <strong>30 多位醫生與博士</strong>(生物力學、視力、物理治療、人體工學)共同參與研發。客人對價格有疑問時,可以從這個專業背景切入。Embody 的核心訴求是:<strong>「不是讓人坐得正,是會跟著人動。」</strong><br><br>
+          它的招牌是<strong>像素矩陣支撐</strong>,椅背跟座面由一格一格的小單元組成,身體微動就跟著調整,把壓力平均分散。客戶試坐時,多數會對「支撐感」與「活動自由度」這兩點有明顯感受,可以從這兩點切入介紹。
+        </p>
+
+        <div class="chair-features-title">六大核心技術</div>
+        <div class="features-list">
+          <div class="feature"><div class="dot">1</div><div class="feature-text"><strong>Pixelated Support™ 像素矩陣支撐</strong><br>精細製造的像素矩陣於整個椅座與靠背,提供針對性壓力分佈,幫助循環與不悶熱</div></div>
+          <div class="feature"><div class="dot">2</div><div class="feature-text"><strong>仿脊椎背靠結構</strong><br>形同人類後背,帶有中間脊柱與靈活肋骨。可調整的中央脊柱與柔軟肋骨,獨特支撐脊柱的每一個區域</div></div>
+          <div class="feature"><div class="dot">3</div><div class="feature-text"><strong>BackFit™ 背部貼合調節</strong><br>按脊椎自然曲線調整靠背位置,實現自然狀態下的平衡姿勢。一旦調節到位,靠背即可隨運動自動調節</div></div>
+          <div class="feature"><div class="dot">4</div><div class="feature-text"><strong>Smooth Tilt 平順傾仰 × Kicker 延伸後仰</strong><br>傾仰機構模擬人體自然支點,提供平衡且流暢的後仰感受;Kicker 功能則可進一步延伸後仰角度,方便伸展與姿勢變換</div></div>
+          <div class="feature"><div class="dot">5</div><div class="feature-text"><strong>上背窄版設計</strong><br>椅子頂部的狹窄設計,鼓勵軀幹運動、允許手臂自由擺動,增加進入肺部的氣流</div></div>
+          <div class="feature"><div class="dot">6</div><div class="feature-text"><strong>多層支撐結構</strong><br>多個支撐層協同工作緩解就座壓力,同時便於空氣流通,保持涼爽舒適</div></div>
+        </div>
+
+        <div class="chair-spec-title">基本規格</div>
+        <div class="spec-table">
+          <div class="spec-row"><div class="label">座椅材質</div><div class="value">HM Textiles Sync(座面)、Pixelated Support(背靠)</div></div>
+          <div class="spec-row"><div class="label">框架材質</div><div class="value">玻璃纖維強化尼龍、壓鑄鋁、鋼、100% 聚酯纖維</div></div>
+          <div class="spec-row"><div class="label">升降範圍</div><div class="value">最高可升至 55.9 cm</div></div>
+          <div class="spec-row"><div class="label">扶手</div><div class="value">可升降(部分配置全向調整)</div></div>
+          <div class="spec-row"><div class="label">配色</div><div class="value">石墨黑、夜幕藍、松果棕、板岩灰…等多種(椅框與椅腳可分別選色)</div></div>
+          <div class="spec-row"><div class="label">保固</div><div class="value">原廠 12 年</div></div>
+        </div>
+
+        <div class="designer-block">
+          <div class="year">2008</div>
+          <div>
+            <div class="label">DESIGNERS</div>
+            <div class="name">Bill Stumpf × Jeff Weber</div>
+            <p style="font-size: 13px; color: rgba(246,243,237,0.7); margin-top: 6px;">Bill Stumpf 與 Herman Miller 合作 30 年,經手包括 Ergon®、Equa®、Aeron® 多款指標座椅。Embody 是他過世前最後一件指標性作品</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chair-panel" data-panel="mirra2">
+      <div class="chair-header">
+        <div class="chair-image">
+          <img src="https://www.hermanmiller.com/content/dam/hmicom/page_assets/products/mirra_2_chair/th_prd_mirra_2_chair_office_chairs_fn.jpg.rendition.480.480.jpg" alt="Mirra 2 Chair">
+        </div>
+        <div class="chair-meta">
+          <div class="chair-brand">HERMAN MILLER</div>
+          <h2>Mirra 2 Chair</h2>
+          <p class="chair-tagline">為個人工作與團隊協作頻繁切換而設計</p>
+          <div class="chair-keypoints">
+            <span>Loop Spine 環狀椎架</span>
+            <span>Butterfly / TriFlex 背</span>
+            <span>FlexFront 座深調整</span>
+            <span>AireWeave2 懸吊座墊</span>
+            <span>以地球為先</span>
+          </div>
+        </div>
+      </div>
+      <div class="chair-body">
+        <p class="chair-story">
+          Mirra 2 是給「整天在開會、跑會議室、又要回座位工作的人」的椅子 — 也就是大部分上班族。德國 Studio 7.5 設計團隊抓的就是這個情境:一直在動、不會固定坐 8 小時。<br><br>
+          Mirra 2 坐感比較輕快,支撐回饋直接。姿勢轉換時不會有厚重包覆感,很適合工作中需要經常切換動作與節奏的人。
+        </p>
+
+        <div class="chair-features-title">六大核心技術</div>
+        <div class="features-list">
+          <div class="feature"><div class="dot">1</div><div class="feature-text"><strong>兩種靠背選項</strong><br>Butterfly Back™(合成織物層+聚合物纖維的動態支撐膜)、TriFlex™(不含織物層,符合嚴苛清潔條件,適合醫療與實驗環境)</div></div>
+          <div class="feature"><div class="dot">2</div><div class="feature-text"><strong>Loop Spine™ 環狀椎架</strong><br>提供扭力彎曲,讓您可橫向伸展與張開身體</div></div>
+          <div class="feature"><div class="dot">3</div><div class="feature-text"><strong>Harmonic™ 2 傾仰</strong><br>反應快的板簧設計,無論體型身高 <strong>41-159 公斤</strong>,變換姿勢時均帶來平衡順暢感</div></div>
+          <div class="feature"><div class="dot">4</div><div class="feature-text"><strong>被動式 PostureFit® 骶骨支撐</strong><br>讓脊椎在就坐時保持自然健康的曲線,防止彎腰駝背</div></div>
+          <div class="feature"><div class="dot">5</div><div class="feature-text"><strong>FlexFront® 椅座深度調節</strong><br>可調整座椅深度,用於不同的腿部支撐</div></div>
+          <div class="feature"><div class="dot">6</div><div class="feature-text"><strong>4D 全可調式扶手</strong><br>上下、左右、前後與左右角度四向可調</div></div>
+        </div>
+
+        <div class="chair-spec-title">基本規格</div>
+        <div class="spec-table">
+          <div class="spec-row"><div class="label">座墊材質</div><div class="value">HM Latitude 動態表面</div></div>
+          <div class="spec-row"><div class="label">框架材質</div><div class="value">壓鑄鋁、鋼、多密度聚合物、玻璃纖維增強聚丙烯</div></div>
+          <div class="spec-row"><div class="label">升降範圍</div><div class="value">最高可升至 57.15 cm</div></div>
+          <div class="spec-row"><div class="label">承重</div><div class="value">41-159 公斤</div></div>
+          <div class="spec-row"><div class="label">扶手</div><div class="value">4D 全可調式(高低、前後、左右、角度)</div></div>
+          <div class="spec-row"><div class="label">款式</div><div class="value">工作椅 + 工作凳(可平視站立同事,適合協作場合)</div></div>
+          <div class="spec-row"><div class="label">配色</div><div class="value">織物、靠背圓環、支柱顏色與底座飾面均可獨立搭配</div></div>
+          <div class="spec-row"><div class="label">保固</div><div class="value">原廠 12 年</div></div>
+        </div>
+
+        <div class="designer-block">
+          <div class="year">2013</div>
+          <div>
+            <div class="label">DESIGNER</div>
+            <div class="name">Studio 7.5(德國)</div>
+            <p style="font-size: 13px; color: rgba(246,243,237,0.7); margin-top: 6px;">為處於連續運動狀態的員工而設計;Mirra 2 為原版 Mirra(2003)的後繼版本</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chair-panel" data-panel="verus">
+      <div class="chair-header">
+        <div class="chair-image">
+          <img src="https://www.hermanmiller.com/content/dam/hmicom/page_assets/products/verus_chairs/th_prd_verus_chairs_office_chairs_fn.jpg.rendition.480.480.jpg" alt="Verus Chair">
+        </div>
+        <div class="chair-meta">
+          <div class="chair-brand">HERMAN MILLER</div>
+          <h2>Verus Chair</h2>
+          <p class="chair-tagline">重新定義平價工作椅 — 規格不打折,12 年原廠保固</p>
+          <div class="chair-keypoints">
+            <span>三種靠背選項</span>
+            <span>TriFlex 三區彈性</span>
+            <span>骶骨增強設計</span>
+            <span>FlexFront 座深可調</span>
+            <span>載重 159 公斤</span>
+          </div>
+        </div>
+      </div>
+      <div class="chair-body">
+        <p class="chair-story">
+          Verus 外型簡潔、適應性高,不論辦公或居家空間都容易搭配。若客戶在預算與功能間尋找平衡,可以介紹 Verus — 它保留 Herman Miller 核心人體工學設計,坐感直接、好入手。
+        </p>
+
+        <div class="chair-features-title">六大核心特色</div>
+        <div class="features-list">
+          <div class="feature"><div class="dot">1</div><div class="feature-text"><strong>三種靠背選項</strong><br>TriFlex 三區彈性背、懸架支撐網背、軟墊布面三種配置選擇</div></div>
+          <div class="feature"><div class="dot">2</div><div class="feature-text"><strong>TriFlex™ 三區人體工學區域</strong><br>彈性背網形成三種人體工學區域,可對動作做出即時回應</div></div>
+          <div class="feature"><div class="dot">3</div><div class="feature-text"><strong>內置骶骨增強設計</strong><br>內建骶骨增強與可選腰部支撐,提高員工健康素質</div></div>
+          <div class="feature"><div class="dot">4</div><div class="feature-text"><strong>FlexFront® 椅座深度調節</strong><br>椅座前後可調,提供不同腿部支撐需求</div></div>
+          <div class="feature"><div class="dot">5</div><div class="feature-text"><strong>三段式同步傾仰</strong><br>在變換姿勢時提供支撐平衡</div></div>
+          <div class="feature"><div class="dot">6</div><div class="feature-text"><strong>百搭外形 + 長效保固</strong><br>毫不張揚的造型可融入任何環境;搭配 12 年原廠保固</div></div>
+        </div>
+
+        <div class="chair-spec-title">基本規格</div>
+        <div class="spec-table">
+          <div class="spec-row"><div class="label">尺寸</div><div class="value">寬 70 × 深 41-48 × 高 103-110 cm</div></div>
+          <div class="spec-row"><div class="label">椅座高度</div><div class="value">43-53 cm 氣壓式升降</div></div>
+          <div class="spec-row"><div class="label">椅背</div><div class="value">TriFlex / 懸架支撐 / 全軟墊三種</div></div>
+          <div class="spec-row"><div class="label">座墊</div><div class="value">前後可調式</div></div>
+          <div class="spec-row"><div class="label">傾仰</div><div class="value">三段式傾仰</div></div>
+          <div class="spec-row"><div class="label">扶手</div><div class="value">可調式高度(亦有固定版)</div></div>
+          <div class="spec-row"><div class="label">椅輪</div><div class="value">硬質輪(適用耐磨地板與地毯)</div></div>
+          <div class="spec-row"><div class="label">最大載重</div><div class="value">159 公斤</div></div>
+          <div class="spec-row"><div class="label">保固</div><div class="value">原廠 12 年</div></div>
+        </div>
+
+        <div class="designer-block">
+          <div class="year">2019</div>
+          <div>
+            <div class="label">DESIGNER</div>
+            <div class="name">ITO Design(德國)</div>
+            <p style="font-size: 13px; color: rgba(246,243,237,0.7); margin-top: 6px;">德國 ITO Design 設計團隊,專長於辦公座椅,為 Herman Miller 設計多款座椅</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chair-panel" data-panel="sayl">
+      <div class="chair-header">
+        <div class="chair-image">
+          <img src="https://www.hermanmiller.com/content/dam/hmicom/page_assets/products/sayl_chairs/th_prd_sayl_chairs_office_chairs_fn.jpg.rendition.480.480.jpg" alt="Sayl Chair">
+        </div>
+        <div class="chair-meta">
+          <div class="chair-brand">HERMAN MILLER</div>
+          <h2>Sayl Chair</h2>
+          <p class="chair-tagline">靈感來自金門大橋 — 用最少材料創造最大支撐</p>
+          <div class="chair-keypoints">
+            <span>3D Intelligent™ 背</span>
+            <span>無框背靠</span>
+            <span>金門大橋啟發</span>
+            <span>色彩活潑</span>
+            <span>入門款</span>
+          </div>
+        </div>
+      </div>
+      <div class="chair-body">
+        <p class="chair-story">
+          <strong>Sayl 的賣點是「設計感」跟「故事」。</strong>設計師 Yves Béhar 住舊金山,他直接把金門大橋的吊索結構搬到椅子上 — 用最少的材料、做出最大的支撐力,這是它沒有框架椅背的原因。<br><br>
+          客人對外型有興趣時,可以從設計故事切入:<strong>「椅背沒有框架,是用懸索原理做的 — 跟金門大橋一樣。連名字都有典故:本來是 Sail(帆),把 I 換成 Y,象徵金門大橋的 Y 型懸塔。」</strong>這段設計脈絡是 Sayl 的差異化重點。<br><br>
+          Sayl 吸引人的地方不只是坐感,還有鮮明的設計語言。對於重視空間風格、喜歡設計感家具的客人來說,它常常不只是椅子,也是空間裡很有存在感的一件作品。
+        </p>
+
+        <div class="chair-features-title">六大核心特色</div>
+        <div class="features-list">
+          <div class="feature"><div class="dot">1</div><div class="feature-text"><strong>3D Intelligent® 無框懸式靠背</strong><br>彈性索粗細與張力不一,沿脊椎兩側轉動部位提供較大支撐,其他部位提供較小支撐</div></div>
+          <div class="feature"><div class="dot">2</div><div class="feature-text"><strong>一體式 PostureFit® 骶骨支撐</strong><br>讓身體保持健康直立姿勢,減少疲勞</div></div>
+          <div class="feature"><div class="dot">3</div><div class="feature-text"><strong>可調式腰部支撐(選配)</strong><br>10.16 cm(4 英寸)上下調節範圍,適應個人脊椎自然曲線</div></div>
+          <div class="feature"><div class="dot">4</div><div class="feature-text"><strong>軟墊版本動態仿生</strong><br>全軟墊工作椅的外殼仿效 3D 智慧懸式椅背設計,以傳統靠背方式提供同樣的動態支撐</div></div>
+          <div class="feature"><div class="dot">5</div><div class="feature-text"><strong>90% 可循環再利用</strong><br>用更少部件與材料達到同樣的目的,減少環境負擔</div></div>
+          <div class="feature"><div class="dot">6</div><div class="feature-text"><strong>命名典故</strong><br>Sail 帆 → Sayl,「I」換「Y」象徵 Y 型懸塔結構</div></div>
+        </div>
+
+        <div class="chair-spec-title">基本規格</div>
+        <div class="spec-table">
+          <div class="spec-row"><div class="label">升降</div><div class="value">氣壓式升降</div></div>
+          <div class="spec-row"><div class="label">椅背</div><div class="value">3D 立體塑料網背 / 全軟墊兩款</div></div>
+          <div class="spec-row"><div class="label">傾仰</div><div class="value">後仰限制可調,可設定前傾 5 度</div></div>
+          <div class="spec-row"><div class="label">扶手</div><div class="value">可調式(高度 + 前後 + 水平左右)</div></div>
+          <div class="spec-row"><div class="label">椅座深度</div><div class="value">可調式</div></div>
+          <div class="spec-row"><div class="label">椅輪</div><div class="value">BB 輪(適用耐磨地板與地毯)</div></div>
+          <div class="spec-row"><div class="label">配色</div><div class="value">椅背、椅框、扶手墊、坐墊布、椅腳皆可分別選色</div></div>
+          <div class="spec-row"><div class="label">保固</div><div class="value">原廠 12 年</div></div>
+        </div>
+
+        <div class="designer-block">
+          <div class="year">2010</div>
+          <div>
+            <div class="label">DESIGNER</div>
+            <div class="name">Yves Béhar / fuseproject</div>
+            <p style="font-size: 13px; color: rgba(246,243,237,0.7); margin-top: 6px;">瑞士裔美籍工業設計師,fuseproject 創辦人,曾與蘋果、三星、惠普、三宅一生等品牌合作,以可持續設計聞名</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chair-panel" data-panel="capisco">
+      <div class="chair-header">
+        <div class="chair-image">
+          <img src="https://flokk-cdn-visualization-prod.azureedge.net/0JPYF9.jpg?shot=front&v=6&width=545&height=650" alt="HÅG Capisco Chair" onerror="this.style.display='none'; this.parentElement.querySelector('.placeholder').style.display='block';">
+          <div class="placeholder" style="display:none;">
+            <strong>HÅG Capisco</strong>
+            馬鞍座椅<br>
+            <span style="font-size:11px;">如圖未顯示,請至 hag.flokk.com 查看</span>
+          </div>
+        </div>
+        <div class="chair-meta">
+          <div class="chair-brand">HÅG · NORWAY</div>
+          <h2>HÅG Capisco</h2>
+          <p class="chair-tagline">馬鞍座椅 — 最好的坐姿,永遠是下一個</p>
+          <div class="chair-keypoints">
+            <span>馬鞍座</span>
+            <span>十字背靠</span>
+            <span>HÅG in Balance® 底座</span>
+            <span>多坐姿支援</span>
+            <span>挪威國寶級設計</span>
+          </div>
+        </div>
+      </div>
+      <div class="chair-body">
+        <p class="chair-story">
+          Capisco 是六款裡面最特別的一張,長得就跟其他椅子不一樣 — 像馬鞍。1984 年挪威設計師 Peter Opsvik 設計的,靈感真的就是「人騎馬」的姿勢。<br><br>
+          它有句設計哲學要背起來:<strong>「最好的坐姿,永遠是下一個坐姿。」</strong>意思就是 — 沒有什麼姿勢是「最對的」,身體要一直變換才健康。<br><br>
+          所以 Capisco 可以前坐、後坐、側坐、半站,搭升降桌效果最好。客人如果有升降桌、或是會在電腦前久坐又想「不要一直一個姿勢」,這張就是首選。建築師、設計師、攝影師、做手作的人,很愛這張椅子。
+        </p>
+
+        <div class="chair-features-title">五大核心特色</div>
+        <div class="features-list">
+          <div class="feature"><div class="dot">1</div><div class="feature-text"><strong>馬鞍式座椅</strong><br>靈感取自騎馬姿勢,即使大腿垂直也不會滑落</div></div>
+          <div class="feature"><div class="dot">2</div><div class="feature-text"><strong>十字雕塑背靠</strong><br>座椅與背靠的鏤空設計,讓手腳有自由活動空間</div></div>
+          <div class="feature"><div class="dot">3</div><div class="feature-text"><strong>HÅG in Balance® 動態底座</strong><br>使用者不需思考機構操作,椅子自動跟隨身體傾斜</div></div>
+          <div class="feature"><div class="dot">4</div><div class="feature-text"><strong>多種坐姿支援</strong><br>可高坐、低坐、側坐、半站立、前傾,搭配升降桌效果最佳</div></div>
+          <div class="feature"><div class="dot">5</div><div class="feature-text"><strong>強調動態</strong><br>不是要你「坐得正」,而是要你「持續變換」</div></div>
+        </div>
+
+        <div class="designer-block">
+          <div class="year">1984</div>
+          <div>
+            <div class="label">DESIGNER</div>
+            <div class="name">Peter Opsvik (1939-2024)</div>
+            <p style="font-size: 13px; color: rgba(246,243,237,0.7); margin-top: 6px;">挪威國寶級工業設計師,代表作含 Tripp Trapp 兒童成長椅(Stokke)、Balans 系列、Capisco 馬鞍椅</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <footer class="footer">
+    YAHO INTERNATIONAL · NEW HIRE ONBOARDING · 看完接著做小測驗
+  </footer>
+
+  <div class="v-mark">V.</div>
+
+</div>
+
+<script>
+const chairTabs = document.querySelectorAll('#chairTabs button');
+const chairPanels = document.querySelectorAll('[data-panel]');
+
+function activateChair(target) {
+  chairTabs.forEach(b => b.classList.toggle('active', b.dataset.chair === target));
+  chairPanels.forEach(p => p.classList.toggle('active', p.dataset.panel === target));
+}
+
+chairTabs.forEach(btn => {
+  btn.addEventListener('click', () => {
+    activateChair(btn.dataset.chair);
+    document.getElementById('chairs').scrollIntoView({behavior:'smooth', block:'start'});
+  });
+});
+
+const navBtns = document.querySelectorAll('#nav button');
+navBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    navBtns.forEach(b => b.classList.toggle('active', b === btn));
+    const target = btn.dataset.target;
+    if (target === 'yaho') {
+      document.getElementById('yaho').scrollIntoView({behavior:'smooth'});
+    } else {
+      activateChair(target);
+      document.getElementById('chairs').scrollIntoView({behavior:'smooth'});
+    }
+  });
+});
+
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('progressBar').style.width = pct + '%';
+});
+</script>
+
+
+
+
+</body>
+</html>
